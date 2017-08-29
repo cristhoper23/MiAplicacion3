@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cristhoper.miaplicacion3.PedidoActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/titleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tipoPizza"
+                android:textColor="@color/colorBlack" />
+
+            <Spinner
+                android:id="@+id/tipoPizza"
+                style="@style/textoNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/Pizza" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/titleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tipoMasa"
+                android:textColor="@color/colorBlack" />
+
+            <RadioGroup
+                android:id="@+id/rdCompl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdMasaGrande"
+                    style="@style/textoNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rbtnGruesa"
+                    android:textColor="@color/colorGrey"
+                    android:onClick="radioButtonClicked"/>
+
+                <RadioButton
+                    android:id="@+id/rdMasaDelg"
+                    style="@style/textoNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rbtnDelgada"
+                    android:textColor="@color/colorGrey"
+                    android:onClick="radioButtonClicked"/>
+
+                <RadioButton
+                    android:id="@+id/rdMasaArt"
+                    style="@style/textoNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rbtnArtesanal"
+                    android:textColor="@color/colorGrey"
+                    android:onClick="radioButtonClicked"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/titleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtCompl"
+                android:textColor="@color/colorBlack" />
+
+            <CheckBox
+                android:id="@+id/checkQueso"
+                style="@style/textoNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/checkQueso"
+                android:textColor="@color/colorGrey"
+                android:onClick="checkBoxClicked"/>
+
+            <CheckBox
+                android:id="@+id/checkJamon"
+                style="@style/textoNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/checkJamon"
+                android:textColor="@color/colorGrey"
+                android:onClick="checkBoxClicked"/>
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/titleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtDireccion"
+                android:textColor="@color/colorBlack" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnOrdenar2"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_shape"
+                android:text="@string/btnOrdenar2"
+                android:textColor="@color/colorWhite"
+                android:onClick="showDialog"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
