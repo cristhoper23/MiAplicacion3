@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,7 +27,7 @@ public class PedidoActivity extends AppCompatActivity {
     private CheckBox checkQueso, checkJamon;
 
     private String textSpinner, textRadioBtn;
-    private Double montoPizza, montoAdicional;
+    private Double montoPizza, montoAdicional = 0.00;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +138,7 @@ public class PedidoActivity extends AppCompatActivity {
                             .setContentTitle("Notification de pedido")
                             .setContentText("Su pedido de pizza se ha realizado correctamente")
                             .setSmallIcon(R.mipmap.ic_launcher)
-                            .setColor(ContextCompat.getColor(PedidoActivity.this, R.color.colorPizza))
+                            .setColor(ContextCompat.getColor(PedidoActivity.this, R.color.colorPrimary))
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .setAutoCancel(true)
                             .build();
@@ -148,6 +149,9 @@ public class PedidoActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "Pedido enviado", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                    Intent intent = new Intent(PedidoActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             });
 
