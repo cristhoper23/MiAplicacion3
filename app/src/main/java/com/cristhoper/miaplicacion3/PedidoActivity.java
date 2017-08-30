@@ -1,6 +1,12 @@
 package com.cristhoper.miaplicacion3;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.media.RingtoneManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,33 +23,32 @@ public class PedidoActivity extends AppCompatActivity {
 
     private Spinner tipoPizza;
     private RadioGroup rdCompl;
-    private TextView textDialog;
+    private CheckBox checkQueso, checkJamon;
 
-    private String textSpinner;
-    private String textRadioBtn;
-    private Double monto;
+    private String textSpinner, textRadioBtn;
+    private Double montoPizza, montoAdicional;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido);
 
-        textDialog = (TextView) findViewById(R.id.txtCustomDialog);
-
         rdCompl = (RadioGroup) findViewById(R.id.rdCompl);
+        checkQueso = (CheckBox) findViewById(R.id.checkQueso);
+        checkJamon = (CheckBox) findViewById(R.id.checkJamon);
 
         tipoPizza = (Spinner) findViewById(R.id.tipoPizza);
         tipoPizza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                 textSpinner = parent.getItemAtPosition(position).toString();
-                if(position == 0){
-                    monto = 40.00;
+                if(position == 1){
+                    montoPizza = 40.00;
                 }else if (position == 2){
-                    monto = 60.00;
+                    montoPizza = 60.00;
                 }else if (position == 3){
-                    monto = 45.00;
-                }else{
-                    monto = 65.00;
+                    montoPizza = 45.00;
+                }else if (position == 4){
+                    montoPizza = 65.00;
                 }
             }
 
@@ -78,43 +83,75 @@ public class PedidoActivity extends AppCompatActivity {
             case R.id.checkQueso:
                 CheckBox checkQueso = (CheckBox) view;
                 if(checkQueso.isChecked())
-                    monto = monto + 8;
-                break;
+                    montoAdicional = 8.00;
+                else
+                    montoAdicional = 0.00;
             case R.id.checkJamon:
                 CheckBox checkJamon = (CheckBox) view;
                 if(checkJamon.isChecked())
-                    monto = monto + 12;
-                break;
+                    montoAdicional = 12.00;
+                else
+                    montoAdicional = 0.00;
         }
     }
 
-    public void showDialog(View view){
-        //textDialog.setText("Su pedido de " + textSpinner + " con " + textRadioBtn + " a S/." + monto.toString() + " + IGV está en proceso de envío");
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_dialog);
+    public void showDialog(final View view){
 
-        dialog.setTitle("Confimación de pedido");
-        Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
-        Button dialogButtonOk = (Button) dialog.findViewById(R.id.customDialogOk);
+        if (tipoPizza.getSelectedItemPosition() == 0 ){
+            Toast.makeText(this, "Tipo de pizza no seleccionado", Toast.LENGTH_LONG).show();
+        }else if (rdCompl.getCheckedRadioButtonId() == -1){
+            Toast.makeText(this, "Tipo de masa no seleccionada", Toast.LENGTH_LONG).show();
+        }else{
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.custom_dialog);
 
-        dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pedido cancelado", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
+            dialog.setTitle("Confimación de pedido");
+            Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
+            Button dialogButtonOk = (Button) dialog.findViewById(R.id.customDialogOk);
+            TextView textDialog = (TextView) dialog.findViewById(R.id.txtCustomDialog);
 
-        // Your android custom dialog ok action
-        // Action for custom dialog ok button click
-        dialogButtonOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pedido enviado", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
+            //Hallando el monto total de la pizza
+            Double montoTotal = montoPizza + montoAdicional;
+            textDialog.setText("Su pedido de " + textSpinner + " con " + textRadioBtn + " a S/." + montoTotal.toString() + " + IGV está en proceso de envío");
 
-        dialog.show();
+            dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    tipoPizza.setSelection(0);
+                    rdCompl.clearCheck();
+                    checkQueso.setChecked(false);
+                    checkJamon.setChecked(false);
+
+                    Toast.makeText(getApplicationContext(), "Pedido cancelado", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            // Your android custom dialog ok action
+            // Action for custom dialog ok button click
+            dialogButtonOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Notification notification = new NotificationCompat.Builder(PedidoActivity.this)
+                            .setContentTitle("Notification de pedido")
+                            .setContentText("Su pedido de pizza se ha realizado correctamente")
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setColor(ContextCompat.getColor(PedidoActivity.this, R.color.colorPizza))
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setAutoCancel(true)
+                            .build();
+
+                    // Notification manager
+                    NotificationManager notificationManager = (NotificationManager) PedidoActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(0, notification);
+
+                    Toast.makeText(getApplicationContext(), "Pedido enviado", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        }
     }
 }

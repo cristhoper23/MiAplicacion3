@@ -13,6 +13,7 @@
     <string name="btnOrdenar2">Ordenar!</string>
 
     <string-array name="Pizza">
+        <item>Sin seleccionar</item>
         <item>Americana</item>
         <item>Meat Lover</item>
         <item>Hawaiana</item>
