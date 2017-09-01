@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -25,6 +26,7 @@ public class PedidoActivity extends AppCompatActivity {
     private Spinner tipoPizza;
     private RadioGroup rdCompl;
     private CheckBox checkQueso, checkJamon;
+    private EditText direccionPedido;
 
     private String textSpinner, textRadioBtn;
     private Double montoPizza, montoAdicional = 0.00;
@@ -36,6 +38,7 @@ public class PedidoActivity extends AppCompatActivity {
         rdCompl = (RadioGroup) findViewById(R.id.rdCompl);
         checkQueso = (CheckBox) findViewById(R.id.checkQueso);
         checkJamon = (CheckBox) findViewById(R.id.checkJamon);
+        direccionPedido = (EditText) findViewById(R.id.direccionPedido);
 
         tipoPizza = (Spinner) findViewById(R.id.tipoPizza);
         tipoPizza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -123,6 +126,7 @@ public class PedidoActivity extends AppCompatActivity {
                     rdCompl.clearCheck();
                     checkQueso.setChecked(false);
                     checkJamon.setChecked(false);
+                    direccionPedido.setText("");
 
                     Toast.makeText(getApplicationContext(), "Pedido cancelado", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
